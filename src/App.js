@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header/Header";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Home from "./pages/home/Home";
+import Login from "./pages/forms/Login";
+import Register from "./pages/forms/Register";
+import PostsPage from "./pages/post-Page/PostsPage";
+import AdminDasBoard from "./pages/admin/AdminDashboard";
+import CreatePost from "./pages/create-post/CreatePost";
+import Footer from "./components/footer/Footer";
+import PostDetails from "./pages/post-details/PostDetails";
+import React from 'react';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter >
+     <Header/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/posts" element={<PostsPage />} />
+        <Route path="/posts/create-post" element={<CreatePost />} />
+        <Route path="/posts/details/:id" element={<PostDetails />} />
+        <Route path="/admin-dashboard" element={<AdminDasBoard />} />
+      </Routes>
+      <Footer/>
+    </BrowserRouter>
   );
 }
 
