@@ -1,6 +1,13 @@
+import AdminSideBar from "./AdminSideBar";
+import AdminMain from "./AdminMain";
+import "./admin.css";
+
 const AdminDasBoard = () => {
     return ( 
-        <h1>Admin dasboard</h1>
+        <section className="admin-dashboard">
+           <AdminSideBar/>
+           <AdminMain />
+        </section>
      );
 }
  

@@ -1,23 +1,20 @@
-import { Link } from "react-router-dom";
 import "./form.css";
 import { useState } from "react";
 import { toast , ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const ResetPassword = () => {
 
 
-   const [email,setEmail] = useState("");
    const [password,setPassword]  = useState("");
 
    // Form submit hander 
    const formSubmitHandler = (e) => {
     e.preventDefault();
 
-    if (email.trim() === "") return toast.error("Email is required!");
     if (password.trim() === "") return toast.error("Password is required!");
 
-    console.log({email , password});
+    console.log({password});
 
    }
 
@@ -25,32 +22,22 @@ const Login = () => {
         <section className="form-container">
           <ToastContainer theme="colored" position="top-center"/>
             <h1 className="form-title">
-                Login to your account
+                Reset Password
             </h1>
             <form onSubmit={formSubmitHandler} className="form">
                 <div className="form-group">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input type="email" className="form-input" id="email"
-                    value={email}
-                    onChange={(e)=> setEmail(e.target.value)}
-                    placeholder="Enter your email"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password" className="form-label">Password</label>
+                    <label htmlFor="password" className="form-label">New Password</label>
                     <input type="password" className="form-input" id="password"
                     value={password}
                     onChange={(e)=> setPassword(e.target.value)}
-                    placeholder="Enter your password"/>
+                    placeholder="Enter your new password"/>
                 </div>
                 <button type="submit" className="form-btn">
-                    Login
+                    Submit
                 </button>
-                <div className="form-footer">
-                    Did you Forgot your password? <Link to="/forget-password">Forgot password</Link>
-                </div>
             </form>
         </section>
     );
 }
  
-export default Login;
+export default ResetPassword;
