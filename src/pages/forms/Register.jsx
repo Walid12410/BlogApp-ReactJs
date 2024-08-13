@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import "./form.css";
 import { useState } from "react";
 import { toast , ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch , useSelector } from "react-redux";
+import { registerUser } from "../../redux/api/authApiCall";
+import swal from "sweetalert";
 
 const Register = () => {
+
+    const dispatch = useDispatch();
+    const { registerMessage } = useSelector(state => state.auth)
 
 
    const [username,setUsername] = useState("");
@@ -14,14 +20,28 @@ const Register = () => {
    // Form submit hander 
    const formSubmitHandler = (e) => {
     e.preventDefault();
-
     if (username.trim() === "") return toast.error("Username is required!");
     if (email.trim() === "") return toast.error("Email is required!");
     if (password.trim() === "") return toast.error("Password is required!");
 
-    console.log({username , email , password});
-
+    dispatch(registerUser({username,email,password}));
    }
+
+   const navigate = useNavigate();
+
+
+   if(registerMessage){
+    swal({
+        title: registerMessage,
+        icon: "success"
+    }).then(isOk => {
+        if(isOk){
+            // go to login page
+            navigate("/login");
+        }
+    })
+   }
+
 
     return (  
         <section className="form-container">
