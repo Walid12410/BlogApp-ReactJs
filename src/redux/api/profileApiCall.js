@@ -43,3 +43,26 @@ export function uploadProfilePhoto(newPoto){
         }
     }
 }
+
+// update user profile
+export function updateUserProfile(profile,userId){
+    return async (dispatch, getState) => {
+        try {
+            const {data} = await requset.put(`/api/users/profile/${userId}`,profile,{
+                headers : {
+                    Authorization : "Bearer " + getState().auth.user.token,
+                }
+            });
+            dispatch(profileAction.updateProfileState(data));
+            dispatch(authAction.setUserName(data.username));
+
+            // modify the user in local storage with new username
+            const user = JSON.parse(localStorage.getItem("userInfo"));
+            user.username = data?.username;
+            localStorage.setItem("userInfo",JSON.stringify(user));
+
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+}

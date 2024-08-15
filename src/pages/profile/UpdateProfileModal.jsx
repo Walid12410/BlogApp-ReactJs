@@ -1,18 +1,15 @@
 import { useState } from "react";
 import "./update-profile.css"
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from "react-redux";
+import {updateUserProfile} from "../../redux/api/profileApiCall"
 
+const UpdateProfileModal = ({ profile, setUpdatePofile }) => {
+   
+    const dispatch = useDispatch();
 
-const user = {
-    username : "walid",
-    bio : "hello my name is walid jallad"
-}
-
-
-const UpdateProfileModal = ({ setUpdatePofile }) => {
-
-    const [username, setUsername] = useState(user.username);
-    const [bio, setBio] = useState(user.bio);
+    const [username, setUsername] = useState(profile.username);
+    const [bio, setBio] = useState(profile.bio);
     const [password, setPassword] = useState("");
 
     // Form subit Handler
@@ -25,12 +22,14 @@ const UpdateProfileModal = ({ setUpdatePofile }) => {
             updatedUser.password = password;
         }
 
-        console.log({updatedUser});
+        dispatch(updateUserProfile(updatedUser, profile?._id ));
+        setUpdatePofile(false);
+
     }
 
     return (
         <div className="update-profile">
-            <form onClick={formSubmitHandler} className="update-profile-form">
+            <form onSubmit={formSubmitHandler} className="update-profile-form">
                 <abbr title="close">
                     <i onClick={() => setUpdatePofile(false)}
                      className="bi bi-x-circle-fill update-profile-form-close"></i>

@@ -106,7 +106,7 @@ const Profile = () => {
             <button className="delete-account-btn" onClick={deleteUserAccount}>
                 Delete Your Account
             </button>
-            {updateProfile && <UpdateProfileModal setUpdatePofile={setUpdatePofile} />}
+            {updateProfile && <UpdateProfileModal profile={profile} setUpdatePofile={setUpdatePofile} />}
         </section>
     );
 }
