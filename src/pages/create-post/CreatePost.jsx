@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./create-post.css";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createPost } from "../../redux/api/postApiCall";
 
 const CreatePost = () => {
+
+    const dispatch = useDispatch();
+    const { loading , isPostCreated } = useSelector(state => state.post);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -21,17 +27,24 @@ const CreatePost = () => {
         if(description.trim() === "") return toast.error("Post Description is required");
         if(!file) return toast.error("Post Image is required");
 
-
         const formData = new FormData();
         formData.append("image",file);
         formData.append("title",title);
         formData.append("description",description);
         formData.append("category",category);
 
-        // @TODO - send form data to server
+        dispatch(createPost(formData));
+    };
 
-        console.log({title,category,description,file});
-    }
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isPostCreated){
+            navigate("/");
+        }
+    }, [isPostCreated , navigate]);
+
 
     return (
         <section className="create-post">
@@ -59,7 +72,10 @@ const CreatePost = () => {
                 <input type="file" name="file" id="file" className="create-post-upload"
                     onChange={(e) => setFile(e.target.files[0])}
                 />
-                <button type="submit" className="create-post-btn">Create</button>
+                <button type="submit" className="create-post-btn">
+                {
+                    loading ? "Loading..." : "Create"
+                }</button>
             </form>
         </section >
     );
