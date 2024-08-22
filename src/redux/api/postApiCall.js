@@ -15,7 +15,6 @@ export function fetchPosts(pageNumber) {
     }
 }
 
-
 // fetch Posts Count
 export function PostCount() {
     return async (dispatch) => {
@@ -28,7 +27,6 @@ export function PostCount() {
     }
 }
 
-
 // fetch Posts Based On Category
 export function fetchPostsBasedOnCategory(category) {
     return async (dispatch) => {
@@ -40,7 +38,6 @@ export function fetchPostsBasedOnCategory(category) {
         }
     }
 }
-
 
 // Create Post
 export function createPost(newPost) {
@@ -58,6 +55,34 @@ export function createPost(newPost) {
         } catch (error) {
             toast.error(error.response.data.message);
             dispatch(postAction.clearLoading());
+        }
+    }
+}
+
+// fetch Single Post Details
+export function fetchSinglePost(postID) {
+    return async (dispatch) => {
+        try {
+            const { data } = await requset.get(`/api/posts/${postID}`);
+            dispatch(postAction.setPost(data));
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+}
+
+// Toggle like post
+export function toggleLikePost(postID) {
+    return async (dispatch,getState) => {
+        try {
+            const { data } = await requset.put(`/api/posts/like/${postID}`,{},{
+                headers :{
+                    Authorization : "Bearer " + getState().auth.user.token,
+                }
+            });
+            dispatch(postAction.setLike(data));
+        } catch (error) {
+            toast.error(error.response.data.message);
         }
     }
 }

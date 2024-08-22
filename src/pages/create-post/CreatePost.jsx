@@ -5,11 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../redux/api/postApiCall";
+import { ThreeDots } from "react-loader-spinner";
 
 const CreatePost = () => {
 
     const dispatch = useDispatch();
-    const { loading , isPostCreated } = useSelector(state => state.post);
+    const { loading, isPostCreated } = useSelector(state => state.post);
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -22,16 +23,16 @@ const CreatePost = () => {
         // e.pre.. doesnot reload the page
         e.preventDefault();
 
-        if(title.trim() === "") return toast.error("Post Title is required");
-        if(category.trim() === "") return toast.error("Post Category is required");
-        if(description.trim() === "") return toast.error("Post Description is required");
-        if(!file) return toast.error("Post Image is required");
+        if (title.trim() === "") return toast.error("Post Title is required");
+        if (category.trim() === "") return toast.error("Post Category is required");
+        if (description.trim() === "") return toast.error("Post Description is required");
+        if (!file) return toast.error("Post Image is required");
 
         const formData = new FormData();
-        formData.append("image",file);
-        formData.append("title",title);
-        formData.append("description",description);
-        formData.append("category",category);
+        formData.append("image", file);
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("category", category);
 
         dispatch(createPost(formData));
     };
@@ -40,10 +41,10 @@ const CreatePost = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(isPostCreated){
+        if (isPostCreated) {
             navigate("/");
         }
-    }, [isPostCreated , navigate]);
+    }, [isPostCreated, navigate]);
 
 
     return (
@@ -73,9 +74,26 @@ const CreatePost = () => {
                     onChange={(e) => setFile(e.target.files[0])}
                 />
                 <button type="submit" className="create-post-btn">
-                {
-                    loading ? "Loading..." : "Create"
-                }</button>
+                    {
+                        loading ? <div style={{ 
+                            display: 'flex', 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                          }}>
+                            <ThreeDots
+                              visible={true}
+                              height="40"
+                              width="40"
+                              color="#FFFFFF"
+                              radius="9"
+                              ariaLabel="three-dots-loading"
+                              wrapperStyle={{}}
+                              wrapperClass=""
+                            />
+                          </div>
+                          
+                            : "Create"
+                    }</button>
             </form>
         </section >
     );
